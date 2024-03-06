@@ -67,7 +67,7 @@ public class Data {
 
         // Reading countries information from file
         try {
-            File file = new File(getResourcesPath()+"files/countries_save.ser");
+            File file = new File(getResourcesPath()+"files/countries-save.ser");
             FileInputStream fileIn = new FileInputStream(file);
             ObjectInputStream in = new ObjectInputStream(fileIn);
             countries = (ArrayList<Country>) in.readObject();

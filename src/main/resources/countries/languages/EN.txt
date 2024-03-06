@@ -1,0 +1,9 @@
+Cape Verde=Cabo Verde
+Eswatini=Swaziland
+Ivory Coast=Cote d'Ivore
+UAE=United Arab Emirates
+UK=United Kingdom,Great Britain
+Vatican City=Holy See
+USA=United States of America,America
+Czech Republic=Czechia
+Italy=Mamma Mia

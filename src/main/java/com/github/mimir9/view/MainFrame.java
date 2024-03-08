@@ -6,14 +6,19 @@ import com.github.mimir9.view.menupanels.Settings;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.util.ArrayList;
 
-public class MainFrame extends JFrame{
+public class MainFrame extends JFrame implements WindowListener {
 
     static JPanel displayPanel = new JPanel();
     static CardLayout cardLayout = new CardLayout();
 
-    MainMenu mainMenuPanel = new MainMenu();
-    Settings settingsPanel = new Settings();
+    static MainMenu mainMenuPanel = new MainMenu();
+    static Settings settingsPanel = new Settings();
+
+    public static ArrayList<JPanel> panels = new ArrayList<>();
 
     public MainFrame() {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -21,6 +26,10 @@ public class MainFrame extends JFrame{
         this.setSize(new Dimension(750, 500));
         this.setTitle("FlagGuessr");
         this.setIconImage(new ImageIcon(Data.getResourcesPath()+"/images/icon.png").getImage());
+        this.addWindowListener(this);
+
+        panels.add(mainMenuPanel);
+        panels.add(settingsPanel);
 
         displayPanel.setLayout(cardLayout);
 
@@ -37,5 +46,42 @@ public class MainFrame extends JFrame{
 
     public static CardLayout getCardLayout() {
         return cardLayout;
+    }
+
+    public static void updateTheme() {
+        mainMenuPanel.updateColors();
+        settingsPanel.updateColors();
+    }
+
+    @Override
+    public void windowOpened(WindowEvent e) {
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+        Data.writeIni();
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {
+    }
+
+    @Override
+    public void windowIconified(WindowEvent e) {
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {
+
     }
 }

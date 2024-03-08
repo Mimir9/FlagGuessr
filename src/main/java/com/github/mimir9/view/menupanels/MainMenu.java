@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
 public class MainMenu extends JPanel implements ActionListener {
 
     JLabel title1 = new JLabel("FlagGuessr");
-    JLabel title2 = new JLabel("FlagGuessr");
+    static JLabel title2 = new JLabel("FlagGuessr");
 
     RoundedButton startButton = new RoundedButton("Start", null);
     RoundedButton settingsButton = new RoundedButton("Settings", null);
@@ -62,5 +62,12 @@ public class MainMenu extends JPanel implements ActionListener {
         else if (e.getSource()==settingsButton) {
             MainFrame.getCardLayout().show(MainFrame.getDisplayPanel(), "Settings");
         }
+    }
+
+    public void updateColors() {
+        title2.setForeground(Data.COLOR_1);
+        this.setBackground(Data.BG_COLOR);
+        startButton.setBackground(Data.COLOR_1);
+        settingsButton.setBackground(Data.COLOR_1);
     }
 }

@@ -9,13 +9,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 
 public class Settings extends JPanel implements ActionListener {
 
-    RoundedButton returnButton = new RoundedButton("", new ImageIcon(Data.getResourcesPath( )+"images/arrow-left.png"));
+    RoundedButton returnButton = new RoundedButton("", new ImageIcon(Data.getResourcesPath() + "images/arrow-left.png"));
     CustomRadioButton lightThemeRadioButton = new CustomRadioButton("Light");
     CustomRadioButton darkThemeRadioButton = new CustomRadioButton("Dark");
+
+    File languagesDir = new File(Data.getResourcesPath() + "countries/languages");
+    String[] languages = languagesDir.list();
+    JRadioButton[] languageButtonsList = new JRadioButton[languages.length];
 
     public Settings() {
         // Adjusting the class panel
@@ -59,17 +64,21 @@ public class Settings extends JPanel implements ActionListener {
         themeLabel.setForeground(Data.TEXT_COLOR);
 
         // Creating themes buttons
-        ButtonGroup themeButtons = new ButtonGroup();
+        ButtonGroup themeButtonsGroup = new ButtonGroup();
 
         lightThemeRadioButton.addActionListener(this);
         lightThemeRadioButton.setAlignmentX(0F);
-        themeButtons.add(lightThemeRadioButton);
+        themeButtonsGroup.add(lightThemeRadioButton);
 
         darkThemeRadioButton.addActionListener(this);
         darkThemeRadioButton.setAlignmentX(0F);
-        themeButtons.add(darkThemeRadioButton);
+        themeButtonsGroup.add(darkThemeRadioButton);
 
-        themeButtons.setSelected(lightThemeRadioButton.getModel(), true);
+        if (Data.getTheme().equals("Light")) {
+            themeButtonsGroup.setSelected(lightThemeRadioButton.getModel(), true);
+        } else if (Data.getTheme().equals("Dark")){
+            themeButtonsGroup.setSelected(darkThemeRadioButton.getModel(), true);
+        }
 
         // Creating languages Label
         JLabel languageLabel = new JLabel("Choose language:");
@@ -82,6 +91,22 @@ public class Settings extends JPanel implements ActionListener {
         optionsPanel.add(darkThemeRadioButton);
         optionsPanel.add(Box.createRigidArea(new Dimension(0, 30)));
         optionsPanel.add(languageLabel);
+
+        // Creating language buttons
+        ButtonGroup languageButtonsGroup = new ButtonGroup();
+
+        for (int i = 0; i < languages.length; i++) {
+            JRadioButton radioButton = new CustomRadioButton(languages[i].replace(".txt", "").toUpperCase());
+            radioButton.addActionListener(this);
+
+            languageButtonsList[i] = radioButton;
+            languageButtonsGroup.add(radioButton);
+            optionsPanel.add(radioButton);
+
+            if (languages[i].replace(".txt", "").toUpperCase().equals(Data.getLanguage())) {
+                languageButtonsGroup.setSelected(radioButton.getModel(), true);
+            }
+        }
 
         // Adding everything to the main panel
         mainPanel.add(Box.createVerticalStrut(10));
@@ -99,8 +124,25 @@ public class Settings extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource()==returnButton) {
-            MainFrame.getCardLayout().show(MainFrame.getDisplayPanel(), "MainMenu" );
+        if (e.getSource() == returnButton) {
+            MainFrame.getCardLayout().show(MainFrame.getDisplayPanel(), "MainMenu");
+        } else if (e.getSource() == lightThemeRadioButton) {
+            Data.setTheme("Light");
+            MainFrame.updateTheme();
+        } else if (e.getSource() == darkThemeRadioButton) {
+            Data.setTheme("Dark");
+            MainFrame.updateTheme();
+        } else {
+            for (JRadioButton radioButton : languageButtonsList) {
+                if (e.getSource() == radioButton) {
+                    Data.setLanguage(radioButton.getText());
+                }
+            }
         }
+    }
+
+    public void updateColors() {
+        this.setBackground(Data.BG_COLOR);
+        returnButton.setBackground(Data.COLOR_1);
     }
 }

@@ -1,5 +1,7 @@
 package com.github.mimir9.model;
 
+import org.ini4j.Wini;
+
 import java.awt.*;
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,7 +10,6 @@ import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
 public class Data {
-
     public static Color TEXT_COLOR = new Color(255, 255, 255);
 
 //    public static Color BG_COLOR = new Color(0, 178, 255);
@@ -61,6 +62,7 @@ public class Data {
         String path = "src/main/resources/";
         return path;
     }
+
     public static ArrayList<Country> getDeserializedCountries() {
 
         ArrayList<Country> countries = null;
@@ -77,5 +79,30 @@ public class Data {
             throw new RuntimeException(e);
         }
         return countries;
+    }
+
+    public static void writeIni() {
+        try {
+            Wini ini = new Wini(new File(getResourcesPath()+"files/config.ini"));
+
+            ini.put("Data", "language", language);
+            ini.put("Data", "theme", theme);
+
+            ini.store();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void readIni() {
+        try{
+            Wini ini = new Wini(new File(getResourcesPath()+"files/config.ini"));
+
+            setLanguage(ini.get("Data", "language", String.class));
+            setTheme(ini.get("Data", "theme", String.class));
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

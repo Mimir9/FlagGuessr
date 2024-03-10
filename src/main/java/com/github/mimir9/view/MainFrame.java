@@ -2,6 +2,7 @@ package com.github.mimir9.view;
 
 import com.github.mimir9.model.Data;
 import com.github.mimir9.view.menupanels.MainMenu;
+import com.github.mimir9.view.menupanels.SelectGameMode;
 import com.github.mimir9.view.menupanels.Settings;
 
 import javax.swing.*;
@@ -17,6 +18,7 @@ public class MainFrame extends JFrame implements WindowListener {
 
     static MainMenu mainMenuPanel = new MainMenu();
     static Settings settingsPanel = new Settings();
+    static SelectGameMode selectGameModePanel = new SelectGameMode();
 
     public static ArrayList<JPanel> panels = new ArrayList<>();
 
@@ -35,6 +37,7 @@ public class MainFrame extends JFrame implements WindowListener {
 
         displayPanel.add(mainMenuPanel, "MainMenu");
         displayPanel.add(settingsPanel, "Settings");
+        displayPanel.add(selectGameModePanel, "SelectGameMode");
 
         this.add(displayPanel);
         this.setVisible(true);
@@ -51,6 +54,7 @@ public class MainFrame extends JFrame implements WindowListener {
     public static void updateTheme() {
         mainMenuPanel.updateColors();
         settingsPanel.updateColors();
+        selectGameModePanel.updateColors();
     }
 
     @Override

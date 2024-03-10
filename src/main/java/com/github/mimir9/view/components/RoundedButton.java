@@ -33,7 +33,7 @@ public class RoundedButton extends JButton {
         this.setFocusable(false);
         this.setRadius(80);
         this.setBorder(null);
-        this.setFont(new Font("Segoe UI Black", Font.ITALIC, 62));
+        this.setFont(new Font("Segoe UI Black", Font.ITALIC, 60));
         this.setVerticalTextPosition(JButton.TOP);
         this.setForeground(Data.TEXT_COLOR);
 

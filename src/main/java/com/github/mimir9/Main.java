@@ -7,6 +7,7 @@ public class Main {
 
     public static void main(String[] args) {
         Data.readIni();
+        Data.deserializeCountries();
         new MainFrame();
     }
 }

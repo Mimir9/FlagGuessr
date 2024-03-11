@@ -3,6 +3,7 @@ package com.github.mimir9.view.menupanels;
 import com.github.mimir9.model.Data;
 import com.github.mimir9.view.MainFrame;
 import com.github.mimir9.view.components.RoundedButton;
+import com.github.mimir9.view.gamemodes.PageMode;
 
 import javax.swing.*;
 import java.awt.*;

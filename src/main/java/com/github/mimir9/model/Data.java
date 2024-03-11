@@ -11,15 +11,18 @@ import java.util.ArrayList;
 
 public class Data {
 
-    public static Color TEXT_COLOR;
+    private static ArrayList<Country> countries;
+
+    public static Color TEXT_COLOR = new Color(255, 255, 255);;
+
     public static Color BG_COLOR;
     public static Color COLOR_1;
     public static Color COLOR_2;
     public static Color COLOR_3;
     public static Color COLOR_4;
 
-    static String language = "EN";
-    static String theme = "Dark";
+    private static String language = "EN";
+    private static String theme = "Dark";
 
     public static String getLanguage() {
         return language;
@@ -37,7 +40,6 @@ public class Data {
         theme = themeName;
 
         if (themeName.equals("Light")) {
-            TEXT_COLOR = new Color(255, 255, 255);
             BG_COLOR = new Color(0, 178, 255);
             COLOR_1 = new Color(0, 136, 255);
             COLOR_2 = new Color(17, 144, 255);
@@ -45,7 +47,6 @@ public class Data {
             COLOR_4 = new Color(0, 122, 229);
         }
         else if (themeName.equals("Dark")) {
-            TEXT_COLOR = new Color(255, 255, 255);
             BG_COLOR = new Color(46, 52, 58);
             COLOR_1 = new Color(38, 43, 48);
             COLOR_2 = new Color(39, 44, 50);
@@ -54,14 +55,16 @@ public class Data {
         }
     }
 
+    public static ArrayList<Country> getCountries() {
+        return countries;
+    }
+
     public static String getResourcesPath() {
         String path = "src/main/resources/";
         return path;
     }
 
-    public static ArrayList<Country> getDeserializedCountries() {
-
-        ArrayList<Country> countries = null;
+    public static void deserializeCountries() {
 
         // Reading countries information from file
         try {
@@ -74,7 +77,6 @@ public class Data {
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-        return countries;
     }
 
     public static void writeIni() {

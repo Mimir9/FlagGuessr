@@ -76,16 +76,13 @@ public class MainFrame extends JFrame implements WindowListener {
 
     @Override
     public void windowDeiconified(WindowEvent e) {
-
     }
 
     @Override
     public void windowActivated(WindowEvent e) {
-
     }
 
     @Override
     public void windowDeactivated(WindowEvent e) {
-
     }
 }

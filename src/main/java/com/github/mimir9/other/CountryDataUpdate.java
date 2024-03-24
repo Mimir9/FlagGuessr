@@ -2,6 +2,7 @@ package com.github.mimir9.other;
 
 import com.github.mimir9.model.Country;
 import com.github.mimir9.model.Data;
+import org.ini4j.Wini;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -64,5 +65,24 @@ public class CountryDataUpdate {
         out.writeObject(countriesList);
         out.close();
         fileOut.close();
+
+        // Adding best scores fields to ini file
+        Wini ini = new Wini(new File(Data.getResourcesPath()+"files/config.ini"));
+
+        String savedLanguage = ini.get("Data", "language", String.class);
+        String savedTheme = ini.get("Data", "theme", String.class);
+
+        ini.put("Data", "language", savedLanguage);
+        ini.put("Data", "theme", savedTheme);
+
+        for (String language : languagesFiles) {
+            language = language.replace(".txt", "");
+            for (String continent : continents) {
+                ini.put("BestScores", language+"_"+continent.replace("-", "_"), 0);
+            }
+            ini.put("BestScores", language+"_world", 0);
+        }
+
+        ini.store();
     }
 }

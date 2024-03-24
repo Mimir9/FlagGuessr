@@ -5,6 +5,7 @@ import com.github.mimir9.model.Data;
 import com.github.mimir9.view.MainFrame;
 import com.github.mimir9.view.components.CustomTextField;
 import com.github.mimir9.view.components.RoundedButton;
+import com.github.mimir9.view.menupanels.FinalScore;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -48,6 +49,7 @@ public class PageMode extends JPanel implements ActionListener, DocumentListener
         scoreLabel.setForeground(Data.TEXT_COLOR);
 
         exitButton.addActionListener(this);
+        finishButton.addActionListener(this);
         finishButton.setPreferredSize(new Dimension(300, 100));
 
         topHorizontalBox.add(Box.createHorizontalStrut(15));
@@ -110,6 +112,9 @@ public class PageMode extends JPanel implements ActionListener, DocumentListener
         else if (e.getSource()==nextButton) {
             nextFlag('+');
         }
+        else if (e.getSource()==finishButton) {
+            createFinalScore();
+        }
     }
 
     @Override
@@ -162,6 +167,11 @@ public class PageMode extends JPanel implements ActionListener, DocumentListener
 
     private void guessed(Country country) {
         countries.remove(country);
+
+        if (countries.isEmpty()) {
+            createFinalScore();
+        }
+
         updateAfterGuessed();
 
         SwingUtilities.invokeLater(
@@ -209,5 +219,11 @@ public class PageMode extends JPanel implements ActionListener, DocumentListener
             updateAfterGuessed();
             textField.setText("");
         }
+    }
+
+    private void createFinalScore() {
+        FinalScore finalScore = new FinalScore(fullCountriesSize-countries.size(), fullCountriesSize, region);
+        MainFrame.getDisplayPanel().add(finalScore, "FinalScore");
+        MainFrame.getCardLayout().show(MainFrame.getDisplayPanel(), "FinalScore");
     }
 }

@@ -12,6 +12,7 @@ import java.util.ArrayList;
 public class Data {
 
     private static ArrayList<Country> countries;
+    private static String[] languages;
 
     public static Color TEXT_COLOR = new Color(255, 255, 255);;
 
@@ -59,6 +60,10 @@ public class Data {
         return countries;
     }
 
+    public static String[] getLanguages() {
+        return languages;
+    }
+
     public static String getResourcesPath() {
         String path = "src/main/resources/";
         return path;
@@ -102,5 +107,20 @@ public class Data {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static void makeLanguagesList() {
+        File languagesDir = new File(getResourcesPath() + "countries/languages");
+        languages = languagesDir.list();
+
+        for (int i=0; i<languages.length; i++) {
+            languages[i] = languages[i].replace(".txt", "");
+        }
+    }
+
+    public static void afterStartFunctions() {
+        readIni();
+        deserializeCountries();
+        makeLanguagesList();
     }
 }

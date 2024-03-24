@@ -9,8 +9,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-
 
 public class Settings extends JPanel implements ActionListener {
 
@@ -18,9 +16,7 @@ public class Settings extends JPanel implements ActionListener {
     CustomRadioButton lightThemeRadioButton = new CustomRadioButton("Light");
     CustomRadioButton darkThemeRadioButton = new CustomRadioButton("Dark");
 
-    File languagesDir = new File(Data.getResourcesPath() + "countries/languages");
-    String[] languages = languagesDir.list();
-    JRadioButton[] languageButtonsList = new JRadioButton[languages.length];
+    JRadioButton[] languageButtonsList = new JRadioButton[Data.getLanguages().length];
 
     public Settings() {
         // Adjusting the class panel
@@ -95,15 +91,15 @@ public class Settings extends JPanel implements ActionListener {
         // Creating language buttons
         ButtonGroup languageButtonsGroup = new ButtonGroup();
 
-        for (int i = 0; i < languages.length; i++) {
-            JRadioButton radioButton = new CustomRadioButton(languages[i].replace(".txt", "").toUpperCase());
+        for (int i = 0; i < Data.getLanguages().length; i++) {
+            JRadioButton radioButton = new CustomRadioButton(Data.getLanguages()[i].toUpperCase());
             radioButton.addActionListener(this);
 
             languageButtonsList[i] = radioButton;
             languageButtonsGroup.add(radioButton);
             optionsPanel.add(radioButton);
 
-            if (languages[i].replace(".txt", "").toUpperCase().equals(Data.getLanguage())) {
+            if (Data.getLanguages()[i].toUpperCase().equals(Data.getLanguage())) {
                 languageButtonsGroup.setSelected(radioButton.getModel(), true);
             }
         }

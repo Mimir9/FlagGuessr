@@ -23,7 +23,7 @@ public class RoundedPanel extends JPanel {
 
     @Override
     protected void paintComponent(Graphics grphcs) {
-        // Drawing panel shape
+        // Drawing panel
         Graphics2D g2 = (Graphics2D) grphcs;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setColor(getBackground());

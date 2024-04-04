@@ -23,6 +23,7 @@ public class MainFrame extends JFrame implements WindowListener {
     public static ArrayList<JPanel> panels = new ArrayList<>();
 
     public MainFrame() {
+        // Setting frame parameters
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setSize(new Dimension(750, 500));
@@ -35,6 +36,7 @@ public class MainFrame extends JFrame implements WindowListener {
 
         displayPanel.setLayout(cardLayout);
 
+        // Adding panels to display panel
         displayPanel.add(mainMenuPanel, "MainMenu");
         displayPanel.add(settingsPanel, "Settings");
         displayPanel.add(selectGameModePanel, "SelectGameMode");
@@ -52,6 +54,7 @@ public class MainFrame extends JFrame implements WindowListener {
     }
 
     public static void updateTheme() {
+        // Updating theme
         mainMenuPanel.updateColors();
         settingsPanel.updateColors();
         selectGameModePanel.updateColors();
@@ -63,6 +66,7 @@ public class MainFrame extends JFrame implements WindowListener {
 
     @Override
     public void windowClosing(WindowEvent e) {
+        // Saving language and theme when window is closing
         Data.writeIni();
     }
 

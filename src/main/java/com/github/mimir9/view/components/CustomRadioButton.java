@@ -10,6 +10,7 @@ public class CustomRadioButton extends JRadioButton {
     private final int SIZE = 54;
 
     public CustomRadioButton(String text) {
+        // Setting parameters
         this.setBackground(null);
         this.setFont(new Font("Segoe UI Black", Font.ITALIC, 40));
         this.setForeground(Color.white);
@@ -20,6 +21,7 @@ public class CustomRadioButton extends JRadioButton {
 
     @Override
     public void paint(Graphics grphcs) {
+        // Drawing radio buttons
         super.paint(grphcs);
         Graphics2D g2 = (Graphics2D) grphcs;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);

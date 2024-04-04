@@ -85,6 +85,7 @@ public class Data {
     }
 
     public static void writeIni() {
+        // Saving informations about language and theme
         try {
             Wini ini = new Wini(new File(getResourcesPath()+"files/config.ini"));
 
@@ -98,6 +99,7 @@ public class Data {
     }
 
     public static void readIni() {
+        // Reading informations about language and theme
         try{
             Wini ini = new Wini(new File(getResourcesPath()+"files/config.ini"));
 
@@ -110,6 +112,7 @@ public class Data {
     }
 
     public static void makeLanguagesList() {
+        // Making list with all languages
         File languagesDir = new File(getResourcesPath() + "countries/languages");
         languages = languagesDir.list();
 
@@ -119,6 +122,7 @@ public class Data {
     }
 
     public static void afterStartFunctions() {
+        // Functions used after application start
         readIni();
         deserializeCountries();
         makeLanguagesList();

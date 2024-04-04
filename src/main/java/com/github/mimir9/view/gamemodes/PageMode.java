@@ -36,12 +36,15 @@ public class PageMode extends JPanel implements ActionListener, DocumentListener
     JPanel flagPanel = new JPanel();
 
     public PageMode(String region) {
+        // Preparing lis of countries
         this.region = region;
         prepareCountries();
 
+        // Adjusting panel
         this.setLayout(new BorderLayout());
         this.setBackground(Data.BG_COLOR);
 
+        // Creating top Box
         Box topVerticalBox = Box.createVerticalBox();
         Box topHorizontalBox = Box.createHorizontalBox();
 
@@ -64,10 +67,12 @@ public class PageMode extends JPanel implements ActionListener, DocumentListener
         topVerticalBox.add(Box.createVerticalStrut(15));
         topVerticalBox.add(topHorizontalBox);
 
+        // Creating the main panel
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
         mainPanel.setBackground(null);
 
+        // Creating box with flag and buttons to change country
         Box countryFlagBox = Box.createHorizontalBox();
 
         flagPanel.setBackground(null);
@@ -89,14 +94,17 @@ public class PageMode extends JPanel implements ActionListener, DocumentListener
         countryFlagBox.add(Box.createRigidArea(new Dimension(30, 1)));
         countryFlagBox.add(nextButton);
 
+        // Creating text field
         textField.setAlignmentX(0.5F);
         textField.getDocument().addDocumentListener(this);
 
+        // Adding everything to the main panel
         mainPanel.add(Box.createVerticalStrut(35));
         mainPanel.add(countryFlagBox);
         mainPanel.add(Box.createVerticalStrut(40));
         mainPanel.add(textField);
 
+        // Adding everything to the class panel
         this.add(topVerticalBox, BorderLayout.NORTH);
         this.add(mainPanel, BorderLayout.CENTER);
     }
@@ -133,6 +141,7 @@ public class PageMode extends JPanel implements ActionListener, DocumentListener
     }
 
     private void prepareCountries() {
+        // Making countries list with countries from region you chose
         ArrayList<Country> allCountriesList = Data.getCountries();
 
         if (region.equals("World")) {
@@ -150,6 +159,7 @@ public class PageMode extends JPanel implements ActionListener, DocumentListener
     }
 
     private void checkIfGuessed() {
+        // Checking if you guessed country
         Country country = countries.get(currentCountryIndex);
         String language = Data.getLanguage();
 
@@ -166,14 +176,44 @@ public class PageMode extends JPanel implements ActionListener, DocumentListener
     }
 
     private void guessed(Country country) {
+        // Removing guessed country
         countries.remove(country);
 
+        // If you guessed all countries it opens panel with dfinal score
         if (countries.isEmpty()) {
             createFinalScore();
         }
 
+        // Updating components after country is guessed
         updateAfterGuessed();
+    }
 
+    private void updateAfterGuessed() {
+        // Updating flag if not all countries are guessed
+        if (!countries.isEmpty()) {
+            countryFlag.setIcon(new ImageIcon(Data.getResourcesPath()+"/countries/flags/"+countries.get(currentCountryIndex).getContinent()+"/"+countries.get(currentCountryIndex).getName()+".png"));
+        }
+        else {
+            countryFlag.setIcon(null);
+        }
+
+        // Removing border around Nepal flag
+        if (countries.get(currentCountryIndex).getName().equals("Nepal")) {
+            countryFlag.setBorder(null);
+        }
+        else {
+            countryFlag.setBorder(new LineBorder(Color.black, 1));
+        }
+
+        // Aligning flag if width is odd
+        if (countryFlag.getIcon().getIconWidth()%2!=0){
+            flagPanel.setBorder(new EmptyBorder(0,0,0,1));
+        }
+        else {
+            flagPanel.setBorder(null);
+        }
+
+        // Clearing text field
         SwingUtilities.invokeLater(
                 new Runnable(){
                     @Override
@@ -182,34 +222,13 @@ public class PageMode extends JPanel implements ActionListener, DocumentListener
                     }
                 }
         );
-    }
 
-    private void updateAfterGuessed() {
-        if (!countries.isEmpty()) {
-            countryFlag.setIcon(new ImageIcon(Data.getResourcesPath()+"/countries/flags/"+countries.get(currentCountryIndex).getContinent()+"/"+countries.get(currentCountryIndex).getName()+".png"));
-        }
-        else {
-            countryFlag.setIcon(null);
-        }
-
-        if (countries.get(currentCountryIndex).getName().equals("Nepal")) {
-            countryFlag.setBorder(null);
-        }
-        else {
-            countryFlag.setBorder(new LineBorder(Color.black, 1));
-        }
-
-        if (countryFlag.getIcon().getIconWidth()%2!=0){
-            flagPanel.setBorder(new EmptyBorder(0,0,0,1));
-        }
-        else {
-            flagPanel.setBorder(null);
-        }
-
+        // Updating label that shows score
         scoreLabel.setText(fullCountriesSize-countries.size()+"/"+fullCountriesSize);
     }
 
     private void nextFlag(char symbol) {
+        // Changing flag on button click
         if (symbol=='-' && currentCountryIndex >0) {
             currentCountryIndex -=1;
             updateAfterGuessed();
@@ -222,6 +241,7 @@ public class PageMode extends JPanel implements ActionListener, DocumentListener
     }
 
     private void createFinalScore() {
+        // Creating and opening final score label
         FinalScore finalScore = new FinalScore(fullCountriesSize-countries.size(), fullCountriesSize, region);
         MainFrame.getDisplayPanel().add(finalScore, "FinalScore");
         MainFrame.getCardLayout().show(MainFrame.getDisplayPanel(), "FinalScore");

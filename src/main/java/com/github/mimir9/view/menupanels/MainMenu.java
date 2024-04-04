@@ -18,6 +18,7 @@ public class MainMenu extends JPanel implements ActionListener {
     RoundedButton settingsButton = new RoundedButton("Settings", null);
 
     public MainMenu() {
+        // Adjusting panel
         this.setBackground(Data.BG_COLOR);
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
@@ -40,12 +41,14 @@ public class MainMenu extends JPanel implements ActionListener {
         titlePanel.setMinimumSize(new Dimension(title1.getWidth()+5, title1.getHeight()));
         titlePanel.setAlignmentX(0.5F);
 
+        // Adjusting buttons
         startButton.addActionListener(this);
         startButton.setAlignmentX(0.5F);
 
         settingsButton.addActionListener(this);
         settingsButton.setAlignmentX(0.5F);
 
+        // Adding everything to the panel
         this.add(Box.createVerticalStrut(20));
         this.add(titlePanel);
         this.add(Box.createVerticalStrut(75));

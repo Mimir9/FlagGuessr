@@ -45,7 +45,6 @@ public class FinalScore extends JPanel implements ActionListener {
         insideInformationPanel.setBackground(null);
         insideInformationPanel.setLayout(new BoxLayout(insideInformationPanel, BoxLayout.PAGE_AXIS));
 
-        bestScoreLabel.setText("Best Score: "+score+"/"+fullCountriesSize);
         bestScoreLabel.setFont(new Font("Segoe UI Black", Font.ITALIC, 55));
         bestScoreLabel.setForeground(Data.TEXT_COLOR);
         bestScoreLabel.setAlignmentX(0F);
@@ -97,16 +96,38 @@ public class FinalScore extends JPanel implements ActionListener {
             Wini ini = new Wini(new File(Data.getResourcesPath() + "files/config.ini"));
 
             for (String language : Data.getLanguages()) {
+                Integer bestScore;
                 for (String continent : continents) {
-                    bestScoresHashMap.put(language+"_"+continent, ini.get("BestScores", language+"_"+continent, Integer.class));
-                    if (Data.getLanguage().equals(language) && region.equals(continent)) {
-                        newBest = true;
+                    bestScore = ini.get("BestScores", language+"_"+continent.replace("-", "_"), Integer.class);
+                    if (Data.getLanguage().equals(language) && region.equalsIgnoreCase(continent.replace("-", " "))) {
+                        if (score>bestScore) {
+                            newBest = true;
+                            bestScore = score;
+                        }
+                        bestScoreLabel.setText("Best Score: "+bestScore+"/"+fullCountriesSize);
                     }
+                    bestScoresHashMap.put(language+"_"+continent.replace("-", "_"), bestScore);
                 }
-                bestScoresHashMap.put(language+"_world", ini.get("BestScores", language+"_world", Integer.class));
-                if (Data.getLanguage().equals(language) && region.equals("World")) {
-                    newBest = true;
+                bestScore = ini.get("BestScores", language+"_world", Integer.class);
+                if (Data.getLanguage().equals(language) && region.equalsIgnoreCase("World")) {
+                    if (score>bestScore) {
+                        newBest = true;
+                        bestScore = score;
+                    }
+                    bestScoreLabel.setText("Best Score: "+bestScore+"/"+fullCountriesSize);
                 }
+                bestScoresHashMap.put(language+"_world", bestScore);
+            }
+
+            if (newBest) {
+                for (String language : Data.getLanguages()) {
+                    for (String continent : continents) {
+                        ini.put("BestScores", language+"_"+continent.replace("-", "_"), bestScoresHashMap.get(language+"_"+continent.replace("-", "_")));
+                    }
+                    ini.put("BestScores", language+"_world", bestScoresHashMap.get(language+"_world"));
+                }
+
+                ini.store();
             }
 
         } catch (IOException e) {

@@ -7,12 +7,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 public class Data {
 
     private static ArrayList<Country> countries;
     private static String[] languages;
+    private static String resourcesPath;
 
     public static Color TEXT_COLOR = new Color(255, 255, 255);;
 
@@ -65,23 +67,7 @@ public class Data {
     }
 
     public static String getResourcesPath() {
-        String path = "src/main/resources/";
-        return path;
-    }
-
-    public static void deserializeCountries() {
-
-        // Reading countries information from file
-        try {
-            File file = new File(getResourcesPath()+"files/countries-save.ser");
-            FileInputStream fileIn = new FileInputStream(file);
-            ObjectInputStream in = new ObjectInputStream(fileIn);
-            countries = (ArrayList<Country>) in.readObject();
-            in.close();
-            fileIn.close();
-        } catch (IOException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+        return resourcesPath;
     }
 
     public static void writeIni() {
@@ -98,7 +84,7 @@ public class Data {
         }
     }
 
-    public static void readIni() {
+    private static void readIni() {
         // Reading informations about language and theme
         try{
             Wini ini = new Wini(new File(getResourcesPath()+"files/config.ini"));
@@ -111,7 +97,22 @@ public class Data {
         }
     }
 
-    public static void makeLanguagesList() {
+    private static void deserializeCountries() {
+
+        // Reading countries information from file
+        try {
+            File file = new File(getResourcesPath()+"files/countries-save.ser");
+            FileInputStream fileIn = new FileInputStream(file);
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            countries = (ArrayList<Country>) in.readObject();
+            in.close();
+            fileIn.close();
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static void makeLanguagesList() {
         // Making list with all languages
         File languagesDir = new File(getResourcesPath() + "countries/languages");
         languages = languagesDir.list();
@@ -121,10 +122,29 @@ public class Data {
         }
     }
 
+    private static void setResourcesPath() {
+        // Checking if program was run in jar or in ide and setting the resources path
+        String path;
+        if (Data.class.getResource("Data.class").toString().startsWith("jar:")) {
+            try {
+                File file = new File(Data.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
+                path = file.getParent()+"\\resources\\";
+            } catch (URISyntaxException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        else {
+            path = "src/main/resources/";
+        }
+        resourcesPath = path;
+    }
+
     public static void afterStartFunctions() {
         // Functions used after application start
+        setResourcesPath();
         readIni();
         deserializeCountries();
         makeLanguagesList();
     }
+
 }

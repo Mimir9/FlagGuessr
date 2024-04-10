@@ -183,9 +183,10 @@ public class PageMode extends JPanel implements ActionListener, DocumentListener
         if (countries.isEmpty()) {
             createFinalScore();
         }
-
-        // Updating components after country is guessed
-        updateAfterGuessed();
+        else {
+            // Updating components after country is guessed
+            updateAfterGuessed();
+        }
     }
 
     private void updateAfterGuessed() {

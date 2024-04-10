@@ -92,11 +92,14 @@ public class FinalScore extends JPanel implements ActionListener {
 
     private void bestScoresManager(int score, int fullCountriesSize, String region) {
         File continentsDir = new File(Data.getResourcesPath()+"/countries/flags");
-        String[] continents = continentsDir.list();
+        String[] continents = new String[7];
         HashMap<String, Integer> bestScoresHashMap = new HashMap<>();
         boolean newBest = false;
 
-        continents[continents.length] = "world";
+        for (int i=0; i<continentsDir.list().length; i++) {
+            continents[i] = continentsDir.list()[i];
+        }
+        continents[6] = "world";
 
         try {
             Wini ini = new Wini(new File(Data.getResourcesPath() + "files/config.ini"));

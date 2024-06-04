@@ -26,7 +26,7 @@ public class MainFrame extends JFrame implements WindowListener {
         // Setting frame parameters
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        this.setSize(new Dimension(750, 500));
+        this.setSize(new Dimension(1200, 800));
         this.setTitle("FlagGuessr");
         this.setIconImage(new ImageIcon(Data.getResourcesPath()+"/images/icon.png").getImage());
         this.addWindowListener(this);

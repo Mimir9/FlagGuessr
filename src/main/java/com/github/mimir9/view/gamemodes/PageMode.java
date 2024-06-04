@@ -185,7 +185,12 @@ public class PageMode extends JPanel implements ActionListener, DocumentListener
         }
         else {
             // Updating components after country is guessed
-            updateAfterGuessed();
+            if (currentCountryIndex==countries.size()){
+                nextFlag('-');
+            }
+            else {
+                updateAfterGuessed();
+            }
         }
     }
 
@@ -233,11 +238,9 @@ public class PageMode extends JPanel implements ActionListener, DocumentListener
         if (symbol=='-' && currentCountryIndex >0) {
             currentCountryIndex -=1;
             updateAfterGuessed();
-            textField.setText("");
         } else if (symbol=='+' && currentCountryIndex < countries.size()-1) {
             currentCountryIndex +=1;
             updateAfterGuessed();
-            textField.setText("");
         }
     }
 
